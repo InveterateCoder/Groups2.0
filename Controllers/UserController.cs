@@ -5,7 +5,6 @@ using Groups2._0.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 
 namespace Groups2._0.Controllers
 {
@@ -23,7 +22,7 @@ namespace Groups2._0.Controllers
       _groupsDb = groupsDb;
     }
     [HttpGet("info")]
-    public async Task<JsonResult> Info()
+    public async Task<JsonResult> Info([FromServices] Connections connections)
     {
       try
       {
@@ -33,7 +32,7 @@ namespace Groups2._0.Controllers
           name = user.UserName,
           group = user.Group,
           ingroup = (await _userMgr.FindByIdAsync(user.InGroupId))?.Group,
-          pub_key = "BFnbEjZPGFowzLKbDeFjlJ-o5juCQWiaFUzDH6jb_H3Rid3EO8f59N8PSe5AAMp5KhLMV31u1V79RxBiAmeofH0"
+          pub_key = connections.vapidPublic
         });
       }
       catch
