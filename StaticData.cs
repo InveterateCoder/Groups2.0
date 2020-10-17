@@ -31,8 +31,8 @@ namespace Groups2._0
     {
       return new WebPush.PushSubscription
       {
-        P256DH = Keys["P256DH"],
-        Auth = Keys["Auth"],
+        P256DH = Keys["p256dh"],
+        Auth = Keys["auth"],
         Endpoint = Endpoint
       };
     }
