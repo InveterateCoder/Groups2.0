@@ -1,4 +1,5 @@
-﻿namespace Groups2._0
+﻿using System.Collections.Generic;
+namespace Groups2._0
 {
   public static class StaticData
   {
@@ -24,20 +25,14 @@
   }
   public class Subscription
   {
-    public struct KeysStruct
-    {
-      public string P256DH;
-      public string Auth;
-    }
-    public string Endpoint;
-    public string ExpirationTime;
-    public KeysStruct Keys;
+    public string Endpoint { get; set; }
+    public IDictionary<string, string> Keys { get; set; }
     public WebPush.PushSubscription FormWebPushSubscription()
     {
       return new WebPush.PushSubscription
       {
-        Auth = Keys.Auth,
-        P256DH = Keys.P256DH,
+        P256DH = Keys["P256DH"],
+        Auth = Keys["Auth"],
         Endpoint = Endpoint
       };
     }
