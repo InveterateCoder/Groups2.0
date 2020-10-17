@@ -1,0 +1,340 @@
+﻿@page
+@model Groups2._0.Pages.IndexModel
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <meta charset="utf-8" />
+  <meta property="og:title" content="Groups" />
+  <meta property="og:description"
+  content="Create your own chat room, secure it with password, encrypt traffic with a secret word. All this you can do with Groups." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://webgroups.azurewebsites.net/images/icon192.png" />
+  <title>Groups</title>
+  <link href="https://fonts.googleapis.com/css?family=Concert+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
+  <link href="~/css/body.css" rel="stylesheet" />
+  <link href="~/css/groups.css" rel="stylesheet" />
+  <link href="~/css/ingroup.css" rel="stylesheet" />
+  <link href="~/css/reg.css" rel="stylesheet" />
+  <script src="https://www.unpkg.com/@@aspnet/signalr@1.1.4/dist/browser/signalr.js"></script>
+  <script src="~/js/groups.js"></script>
+</head>
+
+<body>
+  <div id="reg" class="disable-select" style="display:none" tabindex="-1">
+    <div id="reg_panel">
+      <div id="header">Groups</div>
+      <div id="reg_panel_menu">
+        <div onclick="app.reg_panel.goto('reg')">
+          <img src="~/images/register.svg" style="width:80%" draggable="false" />
+          <div>Register</div>
+        </div>
+        <div onclick="app.reg_panel.goto('sign')">
+          <img src="~/images/signin.svg" style="width:80%" draggable="false" />
+          <div>Sign In</div>
+        </div>
+      </div>
+      <div class="reg_form" style="display:none;">
+        <div class="btn_back">
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.goto('home')">
+            <img src="~/images/back.png" draggable="false" title="go back" width="35" />
+          </div>
+          <span>Register</span>
+        </div>
+        <div>
+          <span class="title">Name:</span>
+          <input type="text" spellcheck="false" maxlength="64" />
+        </div>
+        <div>
+          <span class="title">Email:</span>
+          <input type="email" spellcheck="false" maxlength="256" />
+        </div>
+        <div>
+          <span class="title">Password:</span>
+          <input type="password" maxlength="32" />
+        </div>
+        <div class="action_panel">
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.clear('reg')">
+            <img src="~/images/clear.svg" draggable="false" title="clear" width="40" />
+          </div>
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.goto('numb')">
+            <img src="~/images/unlock.svg" draggable="false" title="enter code" width="40" />
+          </div>
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.register()">
+            <img src="~/images/register.svg" draggable="false" title="register" width="40" />
+          </div>
+        </div>
+      </div>
+      <div class="reg_form" style="display:none;">
+        <div class="btn_back">
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.goto('home')">
+            <img src="~/images/back.png" draggable="false" title="go back" width="35" />
+          </div>
+          <span>Sign In</span>
+        </div>
+        <div>
+          <span class="title">Email:</span>
+          <input type="email" spellcheck="false" maxlength="256" />
+        </div>
+        <div>
+          <span class="title">Password:</span>
+          <input type="password" maxlength="32" />
+        </div>
+        <div class="action_panel">
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.clear('sign')">
+            <img src="~/images/clear.svg" draggable="false" title="clear" width="40" />
+          </div>
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.signin()">
+            <img src="~/images/signin.svg" draggable="false" title="sign in" width="40" />
+          </div>
+        </div>
+      </div>
+      <div id="reg_panel_verify" style="display:none;">
+        <p style="text-align:center">Enter 4 digit code from your verification email.</p>
+        <div style="text-align:center">
+          <input onkeypress="app.reg_panel.num(event)" oninput="app.reg_panel.pasteFilter(event)" type="text"
+          maxlength="4" spellcheck="false" autocomplete="off" />
+        </div>
+        <div class="action_panel">
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.goto('home')">
+            <img src="~/images/home.svg" draggable="false" width="40" title="home" />
+          </div>
+          <div style="cursor:pointer" onmouseover="app.reg_panel.btn_hover(this)"
+          onmouseout="app.reg_panel.btn_out(this)" onmousedown="app.reg_panel.btn_down(this)"
+          onmouseup="app.reg_panel.btn_up(this)" onclick="app.reg_panel.validate()">
+            <img src="~/images/verify.svg" draggable="false" width="40" title="verify" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="groups" class="disable-select" style="display:none" tabindex="-1">
+    <div onscroll="app.groups.on_scroll(this)">
+      <!--buttons-->
+    </div>
+    <dl id="m_all">
+      <dt>Account</dt>
+      <dd onclick="app.groups.signout()">Sign Out</dd>
+      <dd onclick="app.groups.form_open(1)">Change</dd>
+      <dd style="border-bottom:1px solid gray;" onclick="app.groups.form_open(2)">Delete</dd>
+      <dt>My Group</dt>
+      <dd style="border-bottom:1px solid gray;" onclick="app.groups.form_open(3)">Create</dd>
+      <dd class="ddgold" onclick="app.groups.group_signin(this.textContent)"></dd>
+      <dd onclick="app.groups.form_open(4)">Change</dd>
+      <dd style="border-bottom:1px solid gray;" onclick="app.groups.form_open(5)">Delete</dd>
+    </dl>
+    <nav>
+      <div>
+        <span>Groups</span>
+        <code></code>
+      </div>
+      <input type="search" maxlength="64" placeholder="Search" spellcheck="false"
+      onkeyup="app.groups.on_query_key(this.value)" onpaste="app.groups.on_query_paste(event)"
+      oncut="app.groups.on_query_cut(this)" />
+      <div>
+        <div>
+          <span onmouseup="app.groups.m_accf()">Account</span>
+          <span style="margin-right:28px" onmouseup="app.groups.m_groupf()">My Group</span>
+        </div>
+        <div id="hmbrgr" onclick="app.groups.hmbrg_click()" onmouseover="app.groups.hmbrg_over()"
+        onmouseout="app.groups.hmbrg_out()">
+          <div id="bar1"></div>
+          <div id="bar2"></div>
+          <div id="bar3"></div>
+        </div>
+      </div>
+    </nav>
+    <ul id="m_group" tabindex="0" onblur="app.groups.m_onblur(this)">
+      <li onclick="app.groups.form_open(3)">Create</li>
+      <li style="padding: 6px 13px" class="ddgold" onclick="app.groups.group_signin(this.textContent)"></li>
+      <li onclick="app.groups.form_open(4)">Change</li>
+      <li onclick="app.groups.form_open(5)">Delete</li>
+    </ul>
+    <ul id="m_account" tabindex="0" onblur="app.groups.m_onblur(this)">
+      <li onclick="app.groups.signout()">Sign Out</li>
+      <li onclick="app.groups.form_open(1)">Change</li>
+      <li onclick="app.groups.form_open(2)">Delete</li>
+    </ul>
+    <div id="groups_forms" style="display:none">
+      <video preload="auto" autoplay muted loop oncontextmenu="return false">
+        <source src="~/images/lines.mp4" type="video/mp4" />
+      </video>
+      <div>
+        <div>Change Personal Info</div>
+        <div>
+          <div>Password:</div>
+          <input type="password" maxlength="32" placeholder="Current password" />
+        </div>
+        <div>
+          <div>New Name:</div>
+          <input type="text" spellcheck="false" maxlength="64" placeholder="Leave blank to leave unchanged" />
+        </div>
+        <div>
+          <div>New Password:</div>
+          <input type="password" maxlength="32" placeholder="Leave blank to leave unchanged" />
+        </div>
+        <div>
+          <button onclick="app.groups.form_close(1)">Cancel</button>
+          <button onclick="app.groups.acc_change()">OK</button>
+        </div>
+      </div>
+      <div>
+        <div>Delete Account</div>
+        <div>
+          <div>Email:</div>
+          <input type="email" maxlength="256" placeholder="Your registered email address" />
+        </div>
+        <div>
+          <div>Password:</div>
+          <input type="password" maxlength="32" placeholder="Your password" />
+        </div>
+        <div>
+          <button onclick="app.groups.form_close(2)">Cancel</button>
+          <button onclick="app.groups.acc_delete()">Delete</button>
+        </div>
+      </div>
+      <div>
+        <div>Create Group</div>
+        <div>
+          <div>Password:</div>
+          <input type="password" maxlength="32" placeholder="Your password" />
+        </div>
+        <div>
+          <div>Group Name:</div>
+          <input type="text" spellcheck="false" maxlength="64" placeholder="Create your group name" />
+        </div>
+        <div>
+          <div>Group Password:</div>
+          <input type="password" maxlength="32" placeholder="Create your group password" />
+        </div>
+        <div>
+          <button onclick="app.groups.form_close(3)">Cancel</button>
+          <button onclick="app.groups.group_create()">Create</button>
+        </div>
+      </div>
+      <div>
+        <div>Change Group Info</div>
+        <div>
+          <div>Password:</div>
+          <input type="password" maxlength="32" placeholder="Your password" />
+        </div>
+        <div>
+          <div>New Name:</div>
+          <input type="text" spellcheck="false" maxlength="64" placeholder="Leave blank to leave unchanged" />
+        </div>
+        <div>
+          <div>Delete Password:</div>
+          <input type="checkbox" onchange="app.groups.on_pass_del_change(this)" />
+        </div>
+        <div>
+          <div>New Password:</div>
+          <input type="password" maxlength="32" placeholder="Leave blank to leave unchanged" />
+        </div>
+        <div>
+          <button onclick="app.groups.form_close(4)">Cancel</button>
+          <button onclick="app.groups.group_change()">Change</button>
+        </div>
+      </div>
+      <div>
+        <div>Delete Group</div>
+        <div>
+          <div>Password:</div>
+          <input type="password" maxlength="32" placeholder="Your account password" />
+        </div>
+        <div>
+          <button onclick="app.groups.form_close(5)">Cancel</button>
+          <button onclick="app.groups.group_del()">Delete</button>
+        </div>
+      </div>
+      <div>
+        <div>Sign In To</div>
+        <div>
+          <div>Group:</div>
+          <input type="text" maxlength="64" readonly />
+        </div>
+        <div>
+          <div>Password:</div>
+          <input type="password" maxlength="32" placeholder="Leave blank if has no password" />
+        </div>
+        <div>
+          <button onclick="app.groups.form_close(6)">Cancel</button>
+          <button onclick="app.groups.group_signin_send()">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="ingroup" class="disable-select" style="display:none" tabindex="-1">
+    <div>
+      <nav>
+        <img src="~/images/slide_right.svg" draggable="false" onclick="app.groupin.usrs_open()" />
+        <div></div>
+        <div title="Sign out back to group selection" onclick="app.groupin.signout()">Sign Out</div>
+      </nav>
+      <div onscroll="app.groupin.scroll()">
+        <!--Messages-->
+      </div>
+      <input type="text" maxlength="2500" placeholder="Type a message..." onkeydown="app.groupin.onkey_input(event)"
+      disabled />
+    </div>
+    <div>
+      <nav>
+        <input onkeydown="app.groupin.secret_onkey(event, this)" onfocus="app.groupin.secret_onfocus(this)"
+        onblur="app.groupin.secret_onblur(this)" maxlength="64" tabindex="-1" placeholder="Secret Word or Phrase"
+        title="Used to encrypt and decrypt traffic" />
+        <img src="~/images/slide_left.svg" draggable="false" onclick="app.groupin.usrs_close()" />
+      </nav>
+      <div>
+      </div>
+      <div>
+        <div onclick="app.groupin.switch_click()" class="disabled">
+          <img src="~/images/cancel_sel.svg" draggable="false" />
+        </div>
+        <div class="disabled" onclick="app.groupin.notify()">
+          <img src="~/images/notify.svg" draggable="false" />
+        </div>
+        <div onclick="app.groupin.sound_toggle()">
+          <img src="~/images/sound_off.svg" draggable="false" />
+        </div>
+      </div>
+      <div>
+        <div id="online_usrs">
+        </div>
+        <div>Offline</div>
+        <div id="offline_usrs">
+        </div>
+      </div>
+    </div>
+    <div id="disconnected">
+      <div>Disconnected</div>
+    </div>
+  </div>
+  <div id="wait" tabindex="-1"></div>
+  <div id="message" style="display:none" tabindex="-1">
+    <div class="disable-select">
+      <p></p>
+      <button>OK</button>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+﻿*{
+    box-sizing:border-box;
+}
+::-webkit-search-decoration,
+::-webkit-search-cancel-button,
+::-webkit-search-results-button,
+::-webkit-search-results-decoration {
+    display: none;
+}
+input::-ms-clear, input::-ms-reveal{
+    display:none;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    background-image:url(/images/earth.gif), url(/images/stardust.png);
+    background-repeat:no-repeat, repeat;
+    background-attachment:fixed, scroll;
+    background-position:center, left;
+}
+.disable-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+#wait {
+    display:none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.2);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 300px 300px;
+    background-image: url(/images/wait.gif);
+}
+#message {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: transparent;
+}
+#message > div {
+    background-color: ghostwhite;
+    max-width: 490px;
+    width: 100%;
+    margin: 20px auto;
+    padding:5px 15px;
+    border-radius: 25px;
+    box-shadow: 0 0 20px black, 0 0 15px red;
+    font-family: Courier New, Courier, monospace;
+    text-align: center;
+}
+#message > div > button {
+    background-color: dodgerblue;
+    width:100px;
+    height:32px;
+    border-radius:25px;
+    outline:none;
+    margin:auto;
+    margin-bottom: 3px;
+    text-align: center;
+    color: white;
+}
+#message > div > button::-moz-focus-inner {
+    border:none;
+}
+#message > div > p {
+    word-wrap:break-word;
+}
+
+@media screen and (max-width: 900px) {
+    #groups > nav > div:first-child {
+        display: none;
+    }
+    #groups > nav > div:nth-child(3) > div:first-child {
+        display: none;
+    }
+    #groups > nav > div:nth-child(3) {
+        width: auto;
+        margin-left: 20px;
+    }
+    #groups > nav > input {
+        max-width: 275px;
+        width: 100%;
+    }
+    #ingroup > div:first-child {
+        left: 0 !important;
+    }
+    #ingroup > div:first-child > nav > div:nth-child(2) {
+        text-align: center;
+    }
+    #disconnected > div {
+        font-size:10.7vw !important;
+    }
+}
+
+@media screen and (min-width: 901px) {
+    #hmbrgr {
+        display: none;
+    }
+}
